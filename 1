@@ -1,0 +1,640 @@
+7.html
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>CRUD Operation</title>
+
+<script
+
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></s
+
+cript>
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<div>
+
+<h1>USER Details</h1>
+
+<table border="1">
+
+<tr>
+
+<th>Users</th>
+
+<th>Email</th>
+
+<th>Actions</th>
+
+</tr>
+
+<tr ng-repeat="user in users">
+
+<td>{{user.name}}</td>
+
+<td>{{user.email}}</td>
+
+<td>
+
+<button ng-click="edituser(user)">Edit</button>
+
+<button ng-click="deleteuser(user)">Delete</button>
+
+</td>
+
+</tr>
+
+</table>
+
+<br />
+
+<hr />
+
+<div>
+
+<h1>Create User</h1>
+
+<input
+
+type="text"
+
+ng-model="newuser.name"
+
+placeholder="Enter the name"
+
+/>
+
+<input
+
+type="text"
+
+ng-model="newuser.email"
+
+placeholder="Enter the email"
+
+/>
+
+<button ng-click="createuser()">Create</button>
+
+</div>
+
+<br />
+
+<hr />
+
+<div>
+
+<h1>Edit User</h1>
+
+<input type="text" ng-model="editeduser.name" placeholder="Name" />
+<input type="text" ng-model="editeduser.email" placeholder="Email" />
+
+<button ng-click="updateuser()">Update</button>
+
+</div>
+
+<br />
+
+<hr />
+
+</div>
+
+<script src="7.js"></script>
+
+</body>
+
+</html>
+
+7.js
+
+var app = angular.module("myApp", []);
+
+app.controller("myCtrl", function ($scope) {
+
+$scope.users = [
+
+{ name: "Shailesh Sharma K", email: "ssharmak@gmail.com" },
+
+{ name: "Sharma", email: "sharma@gmail.com" },
+
+];
+
+$scope.newuser = {};
+
+$scope.editeduser = {};
+
+$scope.createuser = function () {
+
+if ($scope.newuser) {
+
+$scope.users.push($scope.newuser);
+
+}
+
+$scope.newuser = {};
+
+};
+
+$scope.edituser = function (user) {
+
+$scope.editeduser = user;
+
+};
+
+$scope.deleteuser = function (user) {
+
+$scope.users.splice($scope.users.indexOf(user), 1);
+
+};
+
+$scope.updateuser = function () {
+
+$scope.editeduser = {};
+
+};
+
+});
+
+
+
+
+8.html
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Login Form with validation</title>
+<script
+
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></s
+
+cript>
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<div>
+
+<h1>Login Form</h1>
+
+<form name="loginform" ng-submit="login()" novalidate>
+
+<label>Username:</label>
+
+<input type="text" ng-model="user.username" name="username" required
+
+/>
+
+<span
+
+ng-show="loginform.username.$error.required && 
+
+loginform.username.$dirty"
+
+>Username is required</span
+
+>
+
+<br /><br />
+
+<label>Password:</label>
+
+<input
+
+type="password"
+
+ng-model="user.password"
+
+name="password"
+
+ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/"
+
+required
+
+/>
+
+<span
+
+ng-show="loginform.password.$error.required && 
+
+loginform.password.$dirty"
+
+>Password is required!</span
+
+>
+
+<span
+
+ng-show="loginform.password.$error.pattern && 
+
+loginform.password.$dirty"
+
+>Password must be alphanumeric and at least 8 characters</span
+
+><br /><br />
+
+<button type="submit" ng-disabled="loginform.$invalid">Login</button>
+
+</form>
+
+<br />
+
+<div ng-show="isloggedin">
+
+Login Successful! Welcome {{user.username}}
+
+</div>
+
+</div>
+
+<script src="8.js"></script>
+
+</body>
+
+</html>
+
+8.js
+
+var app = angular.module("myApp", []);
+
+app.controller("myCtrl", function ($scope) {
+
+$scope.user = { username: "", password: "" };
+
+$scope.isloggedin = false;
+
+$scope.login = function () {
+
+$scope.isloggedin = true;
+
+};
+
+});
+
+
+
+9.html
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Employee Details</title>
+
+<script
+
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js">
+</script>
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<div>
+
+<h1>Employee List</h1>
+
+<input type="text" ng-model="searchname" placeholder="Search by name" />
+
+<input
+
+type="text"
+
+ng-model="searchsalary"
+
+placeholder="Search by salary"
+
+/>
+
+<button ng-click="searchemployees()">Search</button>
+
+<ul>
+
+<li ng-repeat="employee in employees">
+
+{{employee.name}} - {{employee.salary}}
+
+</li>
+
+</ul>
+
+</div>
+
+<script src="9.js"></script>
+
+</body>
+
+</html>
+
+9.js
+
+var myApp = angular.module("myApp", []);
+
+myApp.controller("myCtrl", function ($scope) {
+
+$scope.employees = [
+
+{ name: "John", salary: "75000" },
+
+{ name: "Shailesh", salary: "80000" },
+
+{ name: "Karthik", salary: "85000" },
+
+{ name: "Chinmaya", salary: "65000" },
+
+{ name: "Thejaswi", salary: "55000" },
+
+{ name: "Sharma", salary: "45000" },
+
+];
+
+$scope.searchemployees = function () {
+
+$scope.employees = $scope.employees.filter(function (employee) {
+
+return (
+
+employee.name.toLowerCase().indexOf($scope.searchname.toLowerCase()) 
+
+!=
+
+-1 && employee.salary >= $scope.searchsalary
+
+);
+
+});
+
+};
+
+});
+
+
+
+10.html
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Item Collection Management</title>
+
+<script
+
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></s
+
+cript>
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<div>
+
+<h1>Item Collection</h1>
+
+<p>Total no.of items:{{items.length}}</p>
+
+<ul>
+
+<li ng-repeat="item in items">
+
+{{item.name}}
+
+<button ng-click="removeitem(item)">Remove</button>
+
+</li>
+
+</ul>
+
+<div>
+
+<label>New Item:</label>
+
+<input type="text" ng-model="newitemname" />
+
+<button ng-click="additem()">Add Item</button>
+
+</div>
+</div>
+
+<script src="10.js"></script>
+
+</body>
+
+</html>
+
+
+10.js
+
+var app = angular.module("myApp", []);
+
+app.controller("myCtrl", function ($scope) {
+
+$scope.items = [{ name: "Apple" }, { name: "Banana" }, { name: "Orange" }];
+
+$scope.newitemname = " ";
+
+$scope.additem = function () {
+
+if ($scope.newitemname) {
+
+$scope.items.push({ name: $scope.newitemname });
+
+$scope.newitemname = " ";
+
+}
+
+};
+
+$scope.removeitem = function (item) {
+
+var index = $scope.items.indexOf(item);
+
+if (index !== -1) {
+
+$scope.items.splice(index, 1);
+
+}
+
+};
+
+});
+
+
+
+11.html
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Uppercase Program</title>
+
+<script
+
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></s
+
+cript>
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<div>
+
+<h1>Student details</h1>
+
+<p>Total number of students is: {{students.length}}</p>
+
+<table border="1">
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>CGPA</th>
+
+</tr>
+
+</thead>
+<tbody>
+
+<tr ng-repeat="student in students | orderBy:'name'">
+
+<td>{{student.name | uppercase}}</td>
+
+<td>{{student.cgpa}}</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<script src="11.js"></script>
+
+</body>
+
+</html>
+
+
+11.js
+
+var app = angular.module("myApp", []);
+
+app.controller("myCtrl", function ($scope) {
+
+$scope.students = [
+
+{ name: "Akshaya", cgpa: "8.8" },
+
+{ name: "Krishna", cgpa: "7.2" },
+
+{ name: "Johnson", cgpa: "6.5" },
+
+{ name: "Safwan", cgpa: "7.5" },
+
+{ name: "Aeenath", cgpa: "8.5" },
+
+];
+
+});
+
+
+
+
+12.html
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>AJS Date Display</title>
+
+<script
+
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></s
+
+cript>
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<div>
+
+<h1>Data Display</h1>
+
+<label>Date Format:</label>
+
+<select ng-model="seletedformat" ng-change="updateDate()">
+
+<option value="fullDate">Full Date</option>
+
+<option value="shortDate">Short Date</option>
+
+<option value="mediumDate">Medium Date</option>
+<option value="shortTime">Short Time</option>
+
+<option value="yyyy-MM-dd HH:mm:ss">
+
+Custom Format(yyyy-MM-dd HH:mm:ss)
+
+</option>
+
+</select>
+
+<p>Selected Date Format:{{selectedformat}}</p>
+
+<p>Formatted Date:{{formattedDate}}</p>
+
+</div>
+
+<script src="12.js"></script>
+
+</body>
+
+</html>
+
+
+12.js
+
+var app = angular.module("myApp", []);
+
+app.controller("myCtrl", function ($scope, $filter) {
+
+$scope.seletedformat = "fullDate";
+
+$scope.updateDate = function () {
+
+var currentDate = new Date();
+
+$scope.formattedDate = $filter("date")(currentDate, $scope.seletedformat);
+
+};
+
+$scope.updateDate();
+
+});
